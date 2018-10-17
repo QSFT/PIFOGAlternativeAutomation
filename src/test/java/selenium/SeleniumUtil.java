@@ -16,6 +16,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import config.TestContext;
+
 /**
  * @author schen3
  *
@@ -36,7 +38,8 @@ public class SeleniumUtil {
     	if(browser!=null) {
 			browser.quit();
 		}
-    	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe");
+//    	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe");
+    	System.setProperty("webdriver.chrome.driver", TestContext.getProperty("webdriver.chrome.driver"));
 //    	browser = new FirefoxDriver();
     	browser = new ChromeDriver();
     	setWaitTime(30);
