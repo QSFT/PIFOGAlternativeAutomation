@@ -13,6 +13,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -149,12 +150,12 @@ public class SeleniumUtil {
     	else return null;
     }
 
-    public static Boolean waitInvisibilityOfElementByXpath(String xpath, int timeout) {
+    public static boolean waitInvisibilityOfElementByXpath(String xpath, int timeout) {
     	if(browser!=null) {
     		WebDriverWait wait = new WebDriverWait(browser, timeout);
 			return wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
 		}
-    	else return null;
+    	else return false;
     }
 
     public static void clickElementByXpath(String xpath) {
@@ -180,6 +181,14 @@ public class SeleniumUtil {
     public static void uncheckByXpath(String xpath, String keys) {
     	if(findElementByXpath(xpath).isSelected()) {
         	findElementByXpath(xpath).click();
+    	}
+    }
+
+    public static void moveToElement(WebElement e) {
+    	if(browser!=null) {
+	    	Actions actions = new Actions(browser);
+	    	actions.moveToElement(e);
+	    	actions.perform();
     	}
     }
 

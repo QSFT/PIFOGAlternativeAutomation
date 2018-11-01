@@ -17,8 +17,6 @@ import wcf.Text;
 public class PITest  extends StepDefinition{
 
 
-
-
 	@Given("^on SQL PI page, click (?:the )?(?:(\\d+)(?:st|nd|rd|th) )?'(.+)' demension$")
 	public void clickItemInTopBar(String indexStr, String name) throws Throwable {
 		FMSUtil.waitForPageLoad(pageLoadTimeout);
@@ -42,6 +40,28 @@ public class PITest  extends StepDefinition{
 		Reporter.addStepLog("duration: "+duration+"ms");
 	}
 
+	@Given("^on SQL PI page, change dimension to '(.+)'$")
+	public void changeDim(String name) throws Throwable {
+		FMSUtil.waitForPageLoad(pageLoadTimeout);
+
+		//String containerLocator = "//div[@id='w1196174023_componentBody' and @class='componentBody']";
+		String containerLocator = "";
+		int index = 1;
+		//Date startTime = new Date();
+		Link link = new Link(name, containerLocator, index, "contains(@onclick,'system:dbwc_mssql_realtime_performance.1/0/current/1/1/current/current/5/current/5/current/2')");
+		if(!link.isShown()) {
+			throw new Exception("Can't find link '"+name+"' in top bar");
+		}
+		link.click();
+		FMSUtil.waitForPageLoad(pageLoadTimeout);
+		//Date endTime = new Date();
+		//long duration = endTime.getTime() - startTime.getTime();
+		//this.submitRepsoneTime(startTime.getTime(),duration);
+		//Reporter.addStepLog("duration: "+duration+"ms");
+	}
+
+
+
 	@Given("^on SQL PI page, click (?:the )?(?:(\\d+)(?:st|nd|rd|th) )?'(.+)' node in Performance Tree$")
 	public void clickItemInPerfTree(String indexStr, String name) throws Throwable {
 		FMSUtil.waitForPageLoad(pageLoadTimeout);
@@ -63,6 +83,7 @@ public class PITest  extends StepDefinition{
 		long duration = endTime.getTime() - startTime.getTime();
 		this.submitRepsoneTime(startTime.getTime(),duration);
 		Reporter.addStepLog("duration: "+duration+"ms");
+		TestContext.setProperty("currentPIView", name);
 	}
 
 	@Given("^on SQL PI page, change time range to last (1h|4h|8h|24h|48h|72h|7d|All)$")
@@ -98,6 +119,15 @@ public class PITest  extends StepDefinition{
 		TestContext.setProperty("AlternativeInstancePerformance", name);
 	}
 
+	@Given("^get FMS access token$")
+	public void getFMSAccessToken() throws Throwable {
+		FoglightRestSubmissionClient client = FoglightRestSubmissionClient.getInstance();
+		String token = client.getAccessToken("foglight", "foglight");
+		Reporter.addStepLog("FMS access token: "+token);
+		TestContext.setProperty("foglightAccessToken", token);
+	}
+
+
 	private String getCurrentDemension() {
 		Element demen =  new Element("(//div[contains(@style,'selectMiddle.png')])[1]/a//span");
 		return demen.getElementText();
@@ -105,7 +135,14 @@ public class PITest  extends StepDefinition{
 	}
 
 	private String getCurrentView() {
-		Element view =  new Element("(//tr[contains(@class,'wcf-table-body-row tableViewComponentSelectedRow selectedRow')])[1]//span[2]");
+//		Element view =  new Element("(//div[@class='portalMargin' and div/span[contains(.,'Performance Tree')]])[1]//tr[contains(@class,'wcf-table-body-row tableViewComponentSelectedRow selectedRow') or contains(@class,'wcf-table-body-row selectedRow tableViewComponentSelectedRow')]//descendant-or-self::table[@class='wcfTableInnerCell']/tbody/tr/td//span[2]");
+		Element view =  new Element();
+		view.setLocator("//tr[contains(@class,'wcf-table-body-row tableViewComponentSelectedRow selectedRow') or contains(@class,'wcf-table-body-row selectedRow tableViewComponentSelectedRow')]//descendant-or-self::table[@class='wcfTableInnerCell']/tbody/tr/td//span[2]");
+		if(!view.isShown()) {
+			if(TestContext.getProperty("currentPIView")!=null) {
+				return TestContext.getProperty("currentPIView");
+			}
+		}
 		return view.getElementText();
 	}
 
@@ -115,7 +152,7 @@ public class PITest  extends StepDefinition{
 		if(timeline==null||timeline.length()==0) {
 			timeline = "1h";
 		}
-
 		client.submitSubmissionUsageData2Foglight(TestContext.getProperty("AlternativeInstancePerformance"), startTime, timeline, this.getCurrentDemension(), this.getCurrentView(), responseTime);
 	}
+
 }

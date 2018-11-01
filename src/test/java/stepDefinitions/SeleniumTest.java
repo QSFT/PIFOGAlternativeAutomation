@@ -26,6 +26,7 @@ import wcf.Element;
 import wcf.Input;
 import wcf.Select;
 import wcf.Tree;
+import wcf.TreeWcfTable;
 @StepDefAnnotation
 public class SeleniumTest  extends StepDefinition{
 
@@ -226,10 +227,47 @@ public class SeleniumTest  extends StepDefinition{
 		FMSUtil.waitForPageLoad(pageLoadTimeout);
 	}
 
+	@Given("^expand '(.+)' tree table '(.+)'$")
+	public void expendTreeGridTable(String treeTableName, String node) throws Throwable {
+		FMSUtil.waitForPageLoad(pageLoadTimeout);
+				List<String> nodes = new ArrayList<String>(Arrays.asList(node.split("->")));
+				TreeWcfTable tree = new TreeWcfTable(treeTableName,"");
+				tree.navigate(nodes);
+				FMSUtil.waitForPageLoad(pageLoadTimeout);
+
+	}
+
+	@Given("^collapse '(.+)' tree table '(.+)'$")
+	public void collapseTreeGridTable(String treeTableName, String node) throws Throwable {
+		FMSUtil.waitForPageLoad(pageLoadTimeout);
+				List<String> nodes = new ArrayList<String>(Arrays.asList(node.split("->")));
+				TreeWcfTable tree = new TreeWcfTable(treeTableName,"");
+				tree.collapse(nodes);
+				FMSUtil.waitForPageLoad(pageLoadTimeout);
+
+	}
+
+	@Given("^click node '(.+)' (?:in|on) '(.+)' tree table$")
+	public void clickNodeTreeGridTable(String node, String treeTableName) throws Throwable {
+		FMSUtil.waitForPageLoad(pageLoadTimeout);
+				List<String> nodes = new ArrayList<String>(Arrays.asList(node.split("->")));
+				TreeWcfTable tree = new TreeWcfTable(treeTableName,"");
+				tree.clickElement(nodes);
+				FMSUtil.waitForPageLoad(pageLoadTimeout);
+
+	}
+
 	@Given("close browser")
 	public void closeBrowser() {
 		//SeleniumUtil.closeBrowser();
 		SeleniumUtil.quitBrowser();
+		//Reporter.addStepLog("Close firefox");
+	}
+
+	@Given("refresh browser")
+	public void refreshBrowser() {
+		//SeleniumUtil.closeBrowser();
+		SeleniumUtil.refreshBrowser();
 		//Reporter.addStepLog("Close firefox");
 	}
 

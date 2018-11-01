@@ -47,6 +47,9 @@ public class CheckBox extends Element {
 		}
 	}
 
+	public CheckBox(String locator) {
+		super(locator);
+	}
 
 	public boolean isChecked() {
 		return this.isSelected();

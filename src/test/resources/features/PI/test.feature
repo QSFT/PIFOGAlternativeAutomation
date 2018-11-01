@@ -1,6 +1,7 @@
 Feature: 10.30.169.146
 
 Scenario: Go to PI view 10.30.169.146
+#Given get FMS access token
 Given open browser
 And navigate to 'http://10.30.169.152:8080'
 And login FMS
@@ -12,7 +13,9 @@ And on 'SQL PI Monitoring' grid click 'SPI_Samll.png' icon in the following row:
 And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 
 Scenario: SQL PI page 1h
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last 1h
+
 And on SQL PI page, click 'Workload' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree
@@ -31,7 +34,9 @@ And on SQL PI page, click 'Files' node in Performance Tree
 And on SQL PI page, click 'Disks' node in Performance Tree
 
 Scenario: SQL PI page 4h
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last 4h
+
 And on SQL PI page, click 'Memory' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree
@@ -46,7 +51,9 @@ And on SQL PI page, click 'Command Types' node in Performance Tree
 And on SQL PI page, click 'Sessions' node in Performance Tree
 
 Scenario: SQL PI page 8h
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last 8h
+
 And on SQL PI page, click 'CPU' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree
@@ -61,7 +68,9 @@ And on SQL PI page, click 'Command Types' node in Performance Tree
 And on SQL PI page, click 'Sessions' node in Performance Tree
 
 Scenario: SQL PI page 24h
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last 24h
+
 And on SQL PI page, click 'I/O' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree
@@ -79,7 +88,9 @@ And on SQL PI page, click 'Files' node in Performance Tree
 And on SQL PI page, click 'Disks' node in Performance Tree
 
 Scenario: SQL PI page 48h
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last 48h
+
 And on SQL PI page, click 'Network' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree
@@ -94,7 +105,9 @@ And on SQL PI page, click 'Command Types' node in Performance Tree
 And on SQL PI page, click 'Sessions' node in Performance Tree
 
 Scenario: SQL PI page 72h
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last 72h
+
 And on SQL PI page, click 'Lock' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree
@@ -110,7 +123,9 @@ And on SQL PI page, click 'Sessions' node in Performance Tree
 And on SQL PI page, click 'Locked Objects' node in Performance Tree
 
 Scenario: SQL PI page All
+And set AlternativeInstancePerformance '10.30.168.227-10.30.169.146'
 And on SQL PI page, change time range to last All
+
 And on SQL PI page, click 'Latch' demension
 
 And on SQL PI page, click 'Instance View' node in Performance Tree

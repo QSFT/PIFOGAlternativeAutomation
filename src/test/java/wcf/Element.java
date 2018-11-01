@@ -15,13 +15,15 @@ public class Element{
 
 	private String locator;
 
+	private static String anti_hidden_xpath = "[count(ancestor-or-self::*[not(contains(@style,'display: none'))" +
+            " and not(contains(@style,'visibility: hidden'))])=count(ancestor-or-self::*)]";
+
 	public Element() {
 
 	}
 
 	public Element(String loc) {
-		String anti_hidden_xpath = "[count(ancestor-or-self::*[not(contains(@style,'display: none'))" +
-	            " and not(contains(@style,'visibility: hidden'))])=count(ancestor-or-self::*)]";
+
 		locator = loc.replace(anti_hidden_xpath, "")+anti_hidden_xpath;
 	}
 

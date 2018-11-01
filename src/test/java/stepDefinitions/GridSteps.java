@@ -149,4 +149,21 @@ public class GridSteps extends StepDefinition{
 		}
 	}
 
+	@Given("^search '(.*)' (?:on|in) '(.*)' (grid|tree grid)(?: (?:in|on) (?:the )?(.+))?$")
+	public void searchGridItem(String searchVal, String gname, String gtype, String scope) throws Throwable {
+		FMSUtil.waitForPageLoad(pageLoadTimeout);
+		String containerLocator = ComponentUtil.getContainerLocatorByScope(scope);
+		int index = 1;
+
+		Container c ;
+		if(gtype.equals("grid")) {
+			c = new GridWcfTable(gname, containerLocator, 1);
+		}else {
+			c = new TreeWcfTable(gname, containerLocator, 1);
+		}
+		Method search = c.getClass().getMethod("setSearchFieldVaule", String.class);
+		search.invoke(c, searchVal);
+		FMSUtil.waitForPageLoad();
+	}
+
 }

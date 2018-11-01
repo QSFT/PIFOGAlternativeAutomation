@@ -11,6 +11,7 @@ import config.TestContext;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import selenium.SeleniumUtil;
+import stepDefinitions.pitest.fms.FoglightRestSubmissionClient;
 
 
 @RunWith(Cucumber.class)
@@ -28,6 +29,8 @@ public class CukeExec {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd-HHmmss");
 		TestContext.setTestStartTime(df.format(startTime).toString());
 		ReportManager.init(df.format(startTime).toString());
+
+		getFMSAccessToken();
 	 }
 
 	@AfterClass
@@ -36,4 +39,17 @@ public class CukeExec {
 		SeleniumUtil.quitBrowser();
 	}
 
+	private static void getFMSAccessToken() {
+		FoglightRestSubmissionClient client = FoglightRestSubmissionClient.getInstance();
+		String token;
+		try {
+			token = client.getAccessToken("foglight", "foglight");
+			//Reporter.addStepLog("FMS access token: "+token);
+			TestContext.setProperty("foglightAccessToken", token);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }
